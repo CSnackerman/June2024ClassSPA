@@ -3,7 +3,7 @@ import html from "html-literal";
 export default item =>
   html`
     <li>
-      <a href="${item.url}" title="${item.text} data-navigo">
+      <a href="${item.url}" title="${item.text}" data-navigo>
         ${item.text}
       </a>
     </li>
