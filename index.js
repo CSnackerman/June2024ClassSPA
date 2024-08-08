@@ -27,10 +27,28 @@ router.hooks({
     // Add a switch case statement to handle multiple routes
     switch (view) {
       // Add a case for each view that needs data from an API
+      case "home":
+        axios
+          // Get request to retrieve the current weather data using the API key and providing a city name
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial&q=st%20louis`
+          )
+          .then(response => {
+            // Create an object to be stored in the Home state from the response
+            store.home.weather = {
+              city: response.data.name,
+              temp: response.data.main.temp,
+              feelsLike: response.data.main.feels_like,
+              description: response.data.weather[0].main,
+            };
+          })
+          .catch(err => console.log(err))
+          .finally(() => done());
+        break;
       case "pizza":
         // New Axios get request utilizing already made environment variable
         axios
-          .get(`https://sc-pizza-api.onrender.com/pizzas`)
+          .get(`${process.env.PIZZA_PLACE_API_URL}/pizzas`)
           .then(response => {
             // We need to store the response to the state, in the next step but in the meantime let's see what it looks like so that we know what to store from the response.
             console.log("pizza-response", response);
