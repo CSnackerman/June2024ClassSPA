@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "parcel-build": "parcel build index.html && cp _redirects ./dist/",
-    "serve": "parcel index.html"
+    "serve": "parcel index.html",
+    "clean": "remove-item -force -r .parcel-cache dist",
+    "app:watch": "nodemon --watch ./server -e js ./server/app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,14 +17,18 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^3.1.4",
     "parcel": "^2.12.0",
     "prettier": "1.19.1",
     "process": "^0.11.10"
   },
   "dependencies": {
     "axios": "^1.7.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "html-literal": "^1.1.0",
     "lodash": "^4.17.21",
+    "mongoose": "^8.5.3",
     "navigo": "^8.11.1"
   }
 }
