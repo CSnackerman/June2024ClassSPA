@@ -86,12 +86,35 @@ router.hooks({
       document.querySelector("form").addEventListener("submit", event => {
         event.preventDefault();
 
-        const requestBody = {};
         const formData = new FormData(event.target);
+
         // convert for axios
-        formData.forEach((value, key) => {
-          requestBody[key] = value;
-        });
+        const requestBody = formData.entries().reduce((obj, entry) => {
+          const field = entry[0];
+          const value = entry[1];
+
+          const existing = obj[field];
+
+          if (!existing) {
+            return {
+              ...obj,
+              [field]: value,
+            };
+          }
+
+          if (existing && !Array.isArray(existing)) {
+            return {
+              ...obj,
+              [field]: [obj[field], value],
+            };
+          }
+
+          if (Array.isArray(existing))
+            return {
+              ...obj,
+              [field]: [...obj[field], value],
+            };
+        }, {});
 
         console.log("request Body", requestBody);
 
