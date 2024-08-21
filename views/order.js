@@ -2,7 +2,7 @@ import html from "html-literal";
 
 export default () => html`
   <section id="order">
-    <form id="order" method="POST" action="">
+    <form id="order">
       <h2>Order a pizza</h2>
       <div>
         <label for="crust">Crust:</label>
