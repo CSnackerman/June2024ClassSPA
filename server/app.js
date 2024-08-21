@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import pizzas from "./routers/pizzas.js";
 
 // env
 
@@ -52,41 +53,9 @@ app.use(express.json());
 // routes
 
 app.get("/status", (req, res) => {
-  res.send(JSON.stringify({ status: "healthy" }));
+  res.send({ status: "healthy" });
 });
 
-app.get("/weather/:city", (request, response) => {
-  const city = request.params.city;
-
-  let cloudy = "clear";
-  let rainy = false;
-  let lowTemp = 32;
-
-  if ("cloudy" in request.query) {
-    cloudy = request.query.cloudy;
-  }
-  if ("rainy" in request.query && request.query.rainy === "true") {
-    rainy = request.query.rainy;
-  }
-  if ("lowtemp" in request.query) {
-    lowTemp = Number(request.query.lowtemp);
-  }
-
-  const min = 70;
-  const max = 90;
-  const temp = Math.floor(Math.random() * (max - min + 1) + min);
-
-  response.status(418).json({
-    text: `The weather in ${city} is ${temp} degrees today.`,
-    cloudy: cloudy,
-
-    rainy,
-    temp: {
-      current: temp,
-      low: lowTemp,
-    },
-    city,
-  });
-});
+app.use("/pizzas", pizzas);
 
 app.listen(PORT, () => console.log("listening on port", PORT));

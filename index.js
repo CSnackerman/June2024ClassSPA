@@ -74,11 +74,38 @@ router.hooks({
   after: match => {
     console.log("after", match.url);
 
+    const view = match?.data?.view ? camelCase(match.data.view) : "home";
+
     document.querySelector(".fa-bars").addEventListener("click", () => {
       document.querySelector("nav > ul").classList.toggle("hidden--mobile");
     });
 
     router.updatePageLinks();
+
+    if (view === "order") {
+      document.querySelector("form").addEventListener("submit", event => {
+        event.preventDefault();
+
+        const requestBody = {};
+        const formData = new FormData(event.target);
+        // convert for axios
+        formData.forEach((value, key) => {
+          requestBody[key] = value;
+        });
+
+        console.log("request Body", requestBody);
+
+        axios
+          .post(`${process.env.PIZZA_PLACE_API_URL}/pizzas`, requestBody)
+          .then(response => {
+            store.pizza.pizzas.push(response.data);
+            router.navigate("/pizza");
+          })
+          .catch(error => {
+            console.log("It puked", error);
+          });
+      });
+    }
   },
 });
 

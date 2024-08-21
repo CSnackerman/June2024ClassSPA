@@ -6,7 +6,6 @@
   "scripts": {
     "parcel-build": "parcel build index.html && cp _redirects ./dist/",
     "serve": "parcel index.html",
-    "clean": "remove-item -force -r .parcel-cache dist",
     "app:watch": "nodemon --watch ./server -e js ./server/app.js"
   },
   "keywords": [],
